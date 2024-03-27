@@ -1,11 +1,7 @@
 # import matplotlib.pyplot as plt
 import axelrod as axl
 from prettytable import PrettyTable
-from algs import TitForTat, \
-        AlwaysDefect, \
-        AlwaysCoop, \
-        SeededRandom, \
-        CupAlg
+from algs import SeededRandom, CupAlg
 
 
 # Payoff matrix
@@ -13,61 +9,7 @@ matrix = [[(1, 1), (5, 0)], [(0, 5), (3, 3)]]
 NUM_TURNS = 100
 
 
-# Play for NUM_TURNS rounds between two algs
-def battle(alg1, alg2):
-    # History will be in a form of:
-    # [(round 1 player1 choice, round 1 player2 choice),
-    #  (round 2 player1 choice, round 2 player2 choice), ...]
-    history = []
-    score = {
-        'player1': 0,
-        'player2': 0
-    }
-
-    for i in range(5):
-        # player2 should get history in a format:
-        # (player2 choice, player1 choice)
-        reversedHistory = [tup[::-1] for tup in history]
-
-        # get a players choices
-        player1_choice = alg1(history)
-        player2_choice = alg2(reversedHistory)
-
-        # append the current round to history
-        history.append((player1_choice,
-                        player2_choice))
-
-        # get scores
-        score1, score2 = matrix[player1_choice][player2_choice]
-        score['player1'] += score1
-        score['player2'] += score2
-
-    # print('Round', i+1, ':', history[-1], '- score', score1, ':', score2)
-    return score
-
-
 def main():
-    """ Main loop for function based algorithms """
-    tournament_algs = [
-        TitForTat,
-        AlwaysDefect,
-        AlwaysCoop,
-        axl.TitForTat,
-        ]
-
-    print(f"Tournament with {len(tournament_algs)} participants")
-    for alg1 in tournament_algs:
-        for alg2 in tournament_algs:
-            print(f"{alg1.__name__} vs {alg2.__name__}: ", end=' ')
-            print(battle(alg1, alg2))
-            if alg1 == alg2:
-                break
-
-    # # Print results
-    # print(battle(AlwaysDefect, TitForTat))
-
-
-def mainAxl():
     """ Main loop for algorithms based on axl.Player from axelrod lib. """
     # Set players
     players = (
@@ -126,5 +68,4 @@ def mainAxl():
 
 
 if __name__ == '__main__':
-    # main()
-    mainAxl()
+    main()
