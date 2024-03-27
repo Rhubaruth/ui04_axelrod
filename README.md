@@ -1,1 +1,3 @@
-# ui04_axelrod
+# Axelrodův turnaj
+
+

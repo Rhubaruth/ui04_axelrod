@@ -4,9 +4,8 @@ from prettytable import PrettyTable
 from algs import TitForTat, \
         AlwaysDefect, \
         AlwaysCoop, \
-        Test, \
         SeededRandom, \
-        MyAlg
+        CupAlg
 
 
 # Payoff matrix
@@ -14,7 +13,7 @@ matrix = [[(1, 1), (5, 0)], [(0, 5), (3, 3)]]
 NUM_TURNS = 100
 
 
-# Play for 200 rounds
+# Play for NUM_TURNS rounds between two algs
 def battle(alg1, alg2):
     # History will be in a form of:
     # [(round 1 player1 choice, round 1 player2 choice),
@@ -48,6 +47,7 @@ def battle(alg1, alg2):
 
 
 def main():
+    """ Main loop for function based algorithms """
     tournament_algs = [
         TitForTat,
         AlwaysDefect,
@@ -68,23 +68,24 @@ def main():
 
 
 def mainAxl():
+    """ Main loop for algorithms based on axl.Player from axelrod lib. """
+    # Set players
     players = (
             axl.Cooperator(),
             axl.Defector(),
             axl.TitForTat(),
             axl.Adaptive(),
-            SeededRandom(404),
-            MyAlg(404),
-            Test(),
+            SeededRandom(101),
+            CupAlg(101),
             axl.Alternator(),
-            axl.CooperatorHunter(),
+            # axl.CooperatorHunter(),
             )
     tournament = axl.Tournament(players, turns=NUM_TURNS, repetitions=3)
     results: axl.ResultSet = tournament.play()
     # print(*results.summarise(), sep='\n')
     # print(*results.scores, sep='\n')
-    for idx in results.ranking:
-        print(results.players[idx], ' ', results.normalised_cooperation[idx])
+    # for idx in results.ranking:
+    #     print(results.players[idx], ' ', results.normalised_cooperation[idx])
 
     # plot = axl.Plot(results)
     # p = plot.payoff()
@@ -92,6 +93,7 @@ def mainAxl():
 
     # plt.show()
 
+    # Create table for output average payoffs
     table_payoffs = PrettyTable()
     table_payoffs.field_names = [""] + ["Average", " "] + results.ranked_names
     for idx in results.ranking:
@@ -108,6 +110,7 @@ def mainAxl():
 
     print(table_payoffs)
 
+    # Create table for output cooperation rate
     table_coop = PrettyTable()
     table_coop.field_names = [""] + results.ranked_names
     for idx in results.ranking:
