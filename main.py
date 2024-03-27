@@ -18,7 +18,7 @@ def main():
             axl.TitForTat(),
             axl.Adaptive(),
             SeededRandom(101),
-            CupAlg(0.4, 0.7, 0.2),
+            CupAlg(0.5, 0.5, 0.1),
             CupAlg(0.6, 0.6, 0.0),
             axl.Stalker(),
             axl.Detective(),

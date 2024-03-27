@@ -19,7 +19,9 @@ Má tři vlastnosti které lze měnit:
     - forgivness_rate - o kolik se sníží defectivness, když soupeř kooperuje
 Lze je nastavovat během tvorby třídy a po vyzkoušení různých hodnot,
 jsem ponechal dvě možnosti:
-   0.5; 0.75; 0.1 - lehce odpouští
+   0.5; 0.5; 0.1 - lehce odpouští
    a
    0.6; 0.6; 0.0 - vůbec neodpouští, po první zradě pouze zrazuje
 Překvapilo mě, že v soušasném sestavení turnaje vyhrává ta neodopuštěcí varianta. 
+Druhá varianta je schopna odpustit, pokud se soupeř rozhodne dále kooperovat.
+Její úspěšnost bývala v lepší polovině výsledků, ale horší než TFT.
