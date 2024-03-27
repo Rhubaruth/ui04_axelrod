@@ -75,9 +75,9 @@ def mainAxl():
             axl.Adaptive(),
             SeededRandom(404),
             MyAlg(404),
-            # Test(),
-            # axl.Alternator(),
-            # axl.CooperatorHunter(),
+            Test(),
+            axl.Alternator(),
+            axl.CooperatorHunter(),
             )
     tournament = axl.Tournament(players, turns=NUM_TURNS, repetitions=3)
     results: axl.ResultSet = tournament.play()
