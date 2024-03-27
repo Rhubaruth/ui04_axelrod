@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import axelrod as axl
 from prettytable import PrettyTable
 from algs import TitForTat, \
