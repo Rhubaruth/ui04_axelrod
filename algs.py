@@ -29,10 +29,14 @@ class CupAlg(axl.Player):
     defect_growth: float = 0.7
     forgivness_rate: float = 0.2
 
-    def __init__(self, seed: int):
+    def __init__(self,
+                 defectivness: float = 0.5, defect_growth: float = 0.7,
+                 forgivness_rate: float = 0.2):
         super().__init__()
-        self.rng: Random = Random()
-        self.rng.seed(seed)
+
+        self.defectivness = defectivness
+        self.defect_growth = defect_growth
+        self.forgivness_rate = forgivness_rate
 
     def strategy(self, opponent: axl.Player) -> axl.Action:
         """Actual strategy definition that determines player's action."""

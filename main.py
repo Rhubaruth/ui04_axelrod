@@ -13,14 +13,15 @@ def main():
     """ Main loop for algorithms based on axl.Player from axelrod lib. """
     # Set players
     players = (
-            axl.Cooperator(),
+            # axl.Cooperator(),
             axl.Defector(),
             axl.TitForTat(),
             axl.Adaptive(),
             SeededRandom(101),
-            CupAlg(101),
-            axl.Alternator(),
-            # axl.CooperatorHunter(),
+            CupAlg(0.4, 0.7, 0.2),
+            CupAlg(0.6, 0.6, 0.0),
+            axl.Stalker(),
+            axl.Detective(),
             )
     tournament = axl.Tournament(players, turns=NUM_TURNS, repetitions=3)
     results: axl.ResultSet = tournament.play()
@@ -60,10 +61,10 @@ def main():
                        for j in results.ranking]
         row = [results.players[idx]] + sorted_coop
         table_coop.add_row(row)
-
+    
     table_coop.align = "r"
     table_coop.align[""] = "l"
-
+    
     print(table_coop)
 
 
