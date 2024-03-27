@@ -8,6 +8,44 @@ CHOICES = {
 }
 
 
+class MyAlg(axl.Player):
+    """
+    A player.
+    """
+
+    name = "MyAlg"
+    classifier = {
+        "memory_depth": 0,
+        "stochastic": True,
+        "long_run_time": False,
+        "inspects_source": False,
+        "manipulates_source": False,
+        "manipulates_state": False,
+    }
+    defect_persistance: float = 0.7
+    defect_rate: float = 0.85
+    defectivness: float = 0.15
+
+    def __init__(self, seed: int):
+        super().__init__()
+        self.rng: Random = Random()
+        self.rng.seed(seed)
+
+    def strategy(self, opponent: axl.Player) -> axl.Action:
+        """Actual strategy definition that determines player's action."""
+        if not opponent.history:
+            return axl.Action.C
+
+        self.defectivness *= self.defect_persistance
+        if opponent.history[-1] == axl.Action.D:
+            self.defectivness += self.defect_rate
+        self.defectivness -= self.defect_rate / 2.0
+
+        if self.rng.random() < self.defectivness:
+            return axl.Action.D
+        return axl.Action.C
+
+
 class Test(axl.Player):
     """A player who only ever cooperates.
 

@@ -5,11 +5,13 @@ from algs import TitForTat, \
         AlwaysDefect, \
         AlwaysCoop, \
         Test, \
-        SeededRandom
+        SeededRandom, \
+        MyAlg
 
 
 # Payoff matrix
 matrix = [[(1, 1), (5, 0)], [(0, 5), (3, 3)]]
+NUM_TURNS = 100
 
 
 # Play for 200 rounds
@@ -69,14 +71,15 @@ def mainAxl():
     players = (
             axl.Cooperator(),
             axl.Defector(),
-            Test(),
-            axl.Alternator(),
             axl.TitForTat(),
-            axl.CooperatorHunter(),
             axl.Adaptive(),
-            SeededRandom(404)
+            SeededRandom(404),
+            MyAlg(404),
+            # Test(),
+            # axl.Alternator(),
+            # axl.CooperatorHunter(),
             )
-    tournament = axl.Tournament(players, turns=100, repetitions=3)
+    tournament = axl.Tournament(players, turns=NUM_TURNS, repetitions=3)
     results: axl.ResultSet = tournament.play()
     # print(*results.summarise(), sep='\n')
     # print(*results.scores, sep='\n')
@@ -84,24 +87,20 @@ def mainAxl():
         print(results.players[idx], ' ', results.normalised_cooperation[idx])
 
     # plot = axl.Plot(results)
-    # p = plot.boxplot()
-    # p.set_label('boxplot')
-
     # p = plot.payoff()
     # p.set_label('payoff')
-
-    # p = plot.winplot()
-    # p.set_label('winplot')
-    # p.show()
 
     # plt.show()
 
     table_payoffs = PrettyTable()
-    table_payoffs.field_names = [""] + results.ranked_names
+    table_payoffs.field_names = [""] + ["Average", " "] + results.ranked_names
     for idx in results.ranking:
+        # pop to get only one element from repetitions
         sorted_payoffs = [f'{results.payoffs[idx][j].pop():.3f}'
                           for j in results.ranking]
-        row = [results.players[idx]] + sorted_payoffs
+        avg_payoff = sum(map(eval, sorted_payoffs)) / len(sorted_payoffs)
+        row = [results.players[idx], f'{avg_payoff:.3f}', '']
+        row += sorted_payoffs
         table_payoffs.add_row(row)
 
     table_payoffs.align = "r"
